@@ -1,0 +1,525 @@
+﻿<!DOCTYPE html>
+<html lang="nl">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Q2 2026</title>
+  <style>
+    :root {
+      --wigo-dark-blue: #332945;
+      --wigo-light-blue: #404d91;
+      --wigo-green: #66d18f;
+      --wigo-dark-green: #005452;
+      --wigo-pink: #ba4fab;
+      --wigo-red: #f5666b;
+      --wigo-yellow: #ebeb7d;
+      --wigo-warm-gray: #cfd6cc;
+      --text: #332945;
+      --card-bg: #ffffff;
+      --page-bg: #f6f7f5;
+      --border: rgba(51, 41, 69, 0.18);
+      --shadow: 0 18px 40px rgba(51, 41, 69, 0.1);
+      --radius: 24px;
+    }
+
+    * {
+      box-sizing: border-box;
+    }
+
+    body {
+      margin: 0;
+      font-family: Inter, Raleway, Arial, sans-serif;
+      color: var(--text);
+      background:
+        radial-gradient(circle at top right, rgba(102, 209, 143, 0.18), transparent 25%),
+        linear-gradient(180deg, #ffffff 0%, var(--page-bg) 100%);
+      line-height: 1.5;
+    }
+
+    .page {
+      width: min(1240px, calc(100% - 32px));
+      margin: 32px auto 48px;
+    }
+
+    .hero {
+      padding: 32px;
+      border-radius: 32px;
+      background: linear-gradient(135deg, var(--wigo-dark-blue), var(--wigo-light-blue));
+      color: white;
+      box-shadow: var(--shadow);
+      position: relative;
+      overflow: hidden;
+    }
+
+    .hero::after {
+      content: "";
+      position: absolute;
+      inset: auto -60px -60px auto;
+      width: 220px;
+      height: 220px;
+      background: rgba(102, 209, 143, 0.18);
+      border-radius: 999px;
+      filter: blur(6px);
+    }
+
+    .eyebrow {
+      display: inline-flex;
+      align-items: center;
+      gap: 10px;
+      padding: 8px 14px;
+      border-radius: 999px;
+      background: rgba(255, 255, 255, 0.12);
+      font-size: 0.95rem;
+      letter-spacing: 0.03em;
+    }
+
+    .hero h1 {
+      margin: 18px 0 8px;
+      font-size: clamp(2rem, 4vw, 3.75rem);
+      line-height: 1;
+    }
+
+    .hero p {
+      margin: 0;
+      max-width: 820px;
+      font-size: 1.08rem;
+      color: rgba(255, 255, 255, 0.9);
+    }
+
+    .back-link {
+      display: inline-flex;
+      align-items: center;
+      gap: 8px;
+      margin: 18px 0 0;
+      color: white;
+      text-decoration: none;
+      font-weight: 600;
+      position: relative;
+      z-index: 1;
+    }
+
+    .back-link:hover {
+      text-decoration: underline;
+    }
+
+    .section {
+      margin-top: 30px;
+      background: rgba(255, 255, 255, 0.9);
+      border: 1px solid rgba(255, 255, 255, 0.6);
+      border-radius: 28px;
+      box-shadow: var(--shadow);
+      overflow: hidden;
+    }
+
+    .section-header {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 16px;
+      padding: 20px 24px;
+      background: var(--wigo-dark-blue);
+      color: white;
+    }
+
+    .section-header h2 {
+      margin: 0;
+      font-size: clamp(1.2rem, 2vw, 1.9rem);
+    }
+
+    .section-header .tag {
+      padding: 8px 12px;
+      border-radius: 999px;
+      background: rgba(255, 255, 255, 0.12);
+      font-size: 0.92rem;
+      white-space: nowrap;
+    }
+
+    .section-body {
+      padding: 24px;
+    }
+
+    .section-intro {
+      margin: 0 0 22px;
+      font-size: 1.02rem;
+    }
+
+    .task-list {
+      display: grid;
+      gap: 18px;
+    }
+
+    .task-card {
+      background: var(--card-bg);
+      border: 1px solid var(--border);
+      border-radius: var(--radius);
+      padding: 22px;
+      box-shadow: 0 14px 28px rgba(51, 41, 69, 0.06);
+    }
+
+    .task-title-row {
+      display: flex;
+      align-items: flex-start;
+      gap: 14px;
+      margin-bottom: 12px;
+    }
+
+    .task-title-row input[type="checkbox"] {
+      width: 22px;
+      height: 22px;
+      margin-top: 3px;
+      accent-color: var(--wigo-green);
+      flex: 0 0 auto;
+      cursor: pointer;
+    }
+
+    .task-title-row label {
+      font-size: 1.15rem;
+      font-weight: 700;
+      color: var(--wigo-dark-blue);
+      cursor: pointer;
+    }
+
+    .task-meta {
+      display: inline-block;
+      margin: 0 0 12px 36px;
+      padding: 6px 12px;
+      border-radius: 999px;
+      background: rgba(64, 77, 145, 0.1);
+      color: var(--wigo-light-blue);
+      font-size: 0.92rem;
+      font-weight: 600;
+    }
+
+    .task-card p {
+      margin: 0;
+      font-size: 1rem;
+    }
+
+    .task-card p + p {
+      margin-top: 12px;
+    }
+
+    .footer-note {
+      margin-top: 24px;
+      color: rgba(51, 41, 69, 0.72);
+      font-size: 0.95rem;
+    }
+
+    @media (max-width: 760px) {
+      .page {
+        width: min(100% - 20px, 1240px);
+        margin-top: 20px;
+      }
+
+      .hero,
+      .section-body,
+      .section-header {
+        padding-left: 18px;
+        padding-right: 18px;
+      }
+
+      .section-header {
+        flex-direction: column;
+        align-items: flex-start;
+      }
+
+      .task-title-row {
+        gap: 12px;
+      }
+
+      .task-meta {
+        margin-left: 34px;
+      }
+    }
+  </style>
+</head>
+<body>
+  <main class="page">
+    <section class="hero">
+      <span class="eyebrow">Wigo4it · Q2 2026</span>
+      <h1>Q2 2026</h1>
+      <p>Afbouw diverse componenten</p>
+      <a class="back-link" href="HTMLPage1.html">← Terug naar tijdlijn</a>
+    </section>
+
+    <section class="section">
+      <div class="section-header">
+        <h2>Q2 – opbouwen nieuwe infra</h2>
+        <span class="tag">Aanvinkbare checklist</span>
+      </div>
+      <div class="section-body">
+        <p class="section-intro">De onderstaande componenten kunnen afzonderlijk worden afgevinkt.</p>
+        <div class="task-list">
+          <article class="task-card">
+            <div class="task-title-row">
+              <input type="checkbox" id="task1" />
+              <label for="task1">Exact migreren naar de Exact Cloud</label>
+            </div>
+            <div class="task-meta">AWPO + AMS, UTR, RTD</div>
+            <p>Het doel is behaald als Exact voor de G3 volledig draait in de Exact cloud.</p>
+          </article>
+
+          <article class="task-card">
+            <div class="task-title-row">
+              <input type="checkbox" id="task2" />
+              <label for="task2">Pre-Prod en Prod batch orkestratie onderbrengen in AKS op basis van de laatste versie van Automic UC4</label>
+            </div>
+            <div class="task-meta">AWPO &amp; SysOp</div>
+            <p>Het doel is behaald als de Pre-Prod en Prod batch servers middels de nieuwe orkestratie aangestuurd worden en succesvol alle batches kunnen draaien.</p>
+          </article>
+
+          <article class="task-card">
+            <div class="task-title-row">
+              <input type="checkbox" id="task3" />
+              <label for="task3">Toekomstvaste en uniforme bestandsuitwisseling Den Haag</label>
+            </div>
+            <div class="task-meta">AWPO + Den Haag</div>
+            <p>Dit doel is behaald als er met succes bestanden met de databridge oplossing kunnen worden uitgewisseld tussen Wigo4it en Den Haag en alle betrokken processen, zowel bij Wigo4it als bij de gemeente, probleemloos met de databridge implementatie kunnen omgaan.</p>
+          </article>
+
+          <article class="task-card">
+            <div class="task-title-row">
+              <input type="checkbox" id="task4" />
+              <label for="task4">Toekomstvaste en uniforme bestandsuitwisseling Rotterdam</label>
+            </div>
+            <div class="task-meta">AWPO + Rotterdam</div>
+            <p>Dit doel is behaald als er met succes bestanden met de databridge oplossing kunnen worden uitgewisseld tussen Wigo4it en Rotterdam en alle betrokken processen, zowel bij Wigo4it als bij de gemeente, probleemloos met de databridge implementatie kunnen omgaan.</p>
+          </article>
+
+          <article class="task-card">
+            <div class="task-title-row">
+              <input type="checkbox" id="task5" />
+              <label for="task5">Uitfaseren G4 ondersteunende beheer servers</label>
+            </div>
+            <div class="task-meta">Auxilium + AMS, UTR, RTD, DHG =&gt; AWPO</div>
+            <p>Dit doel is behaald als de bijgaande servers worden uitgeschakeld. Deze actie kan gestart worden zodra de vervangende infra is opgeleverd door Auxilium.</p>
+          </article>
+
+          <article class="task-card">
+            <div class="task-title-row">
+              <input type="checkbox" id="task6" />
+              <label for="task6">Overige relevante services die afhankelijk zijn van Biztalk ombouwen naar technologieën in Azure en werkend in productie</label>
+            </div>
+            <div class="task-meta">Valori</div>
+            <p>Doel: alle overige relevante services die afhankelijk zijn van Biztalk zijn omgebouwd naar technologieën in Azure en zijn werkend in productie.</p>
+            <p>Het doel is behaald als ZS DMS niet meer afhankelijk is van Biztalk en AVS.</p>
+          </article>
+
+          <article class="task-card">
+            <div class="task-title-row">
+              <input type="checkbox" id="task7" />
+              <label for="task7">Rechtssituatiesignalering draait als AKS Job zodat de batch cloudnative en testbaar is zonder afhankelijkheid GALO</label>
+            </div>
+            <div class="task-meta">SignalerenVeranderingInRechtsituatieBat</div>
+            <p>Doel: de SignalerenVeranderingInRechtsituatie-batch signaleert wijzigingen in de rechts- en leefsituatie van bijstandsontvangers, zoals kind wordt 18, pensioenleeftijd, einde verblijfstitel, kind of medebewoner wordt 27 en vertrek uit gemeente.</p>
+            <p>Door eerste GALO-afhankelijke testen met deze batch te migreren naar een AKS Job wordt de afhankelijkheid van de legacy batchinfrastructuur en Biztalk geëlimineerd en sluit de batch aan op de cloudnative strategie van Wigo4it.</p>
+          </article>
+
+          <article class="task-card">
+            <div class="task-title-row">
+              <input type="checkbox" id="task8" />
+              <label for="task8">Cloud based storage oplossing ter ondersteuning batchprocessen</label>
+            </div>
+            <div class="task-meta">AWPO &amp; SysOp &amp; teams die iets met batches doen =&gt; Q3</div>
+            <p>Dit doel is behaald wanneer de totale batchverwerking onafhankelijk van opslagdiensten in AVS kan functioneren en gekoppeld is aan de databridge oplossing voor bestandsuitwisseling.</p>
+          </article>
+        </div>
+      </div>
+    </section>
+
+    <section class="section">
+      <div class="section-header">
+        <h2>Migratie infra</h2>
+        <span class="tag">Subtitel 3</span>
+      </div>
+      <div class="section-body">
+        <div class="task-list">
+          <article class="task-card">
+            <div class="task-title-row">
+              <input type="checkbox" id="task9" />
+              <label for="task9">BRP migratie Rotterdam</label>
+            </div>
+            <div class="task-meta">Valori</div>
+            <p>Dit doel is gehaald als de componenten volledig in Azure draaien en niet meer afhankelijk zijn van Biztalk GBA.</p>
+          </article>
+
+          <article class="task-card">
+            <div class="task-title-row">
+              <input type="checkbox" id="task10" />
+              <label for="task10">Rotterdam is voor hun aanvraag LO niet meer afhankelijk van Biztalk</label>
+            </div>
+            <div class="task-meta">Thomas · Valori</div>
+            <p>Dit doel is gehaald als de componenten volledig in Azure draaien en niet meer afhankelijk zijn van Biztalk.</p>
+          </article>
+        </div>
+      </div>
+    </section>
+
+    <section class="section">
+      <div class="section-header">
+        <h2>Afbouwen oude infra</h2>
+        <span class="tag">Subtitel 4</span>
+      </div>
+      <div class="section-body">
+        <div class="task-list">
+          <article class="task-card">
+            <div class="task-title-row">
+              <input type="checkbox" id="task11" />
+              <label for="task11">Uitfaseren Password manager Pro</label>
+            </div>
+            <div class="task-meta">AWPO</div>
+            <p>Dit doel is behaald als de passwordmanager pro omgeving uitgeschakeld kan worden. Deze actie kan gestart worden zodra er geen afhankelijkheden meer zijn van deze tool door de teams. Deadline is mei 2026 in verband met het aflopen van de licentie.</p>
+          </article>
+
+          <article class="task-card">
+            <div class="task-title-row">
+              <input type="checkbox" id="task12" />
+              <label for="task12">Uitfaseren exchange Hybrid omgeving</label>
+            </div>
+            <div class="task-meta">CEE =&gt; Auxilium</div>
+            <p>Dit doel is behaald als de daarbij horende server uitgeschakeld is. Deze actie kan gestart worden zodra de Microsoft Entra Connect Sync koppeling door CE&amp;E is opgeruimd.</p>
+          </article>
+
+          <article class="task-card">
+            <div class="task-title-row">
+              <input type="checkbox" id="task13" />
+              <label for="task13">Uitfaseren ESB Infrastructuur</label>
+            </div>
+            <div class="task-meta">Valori =&gt; AWPO</div>
+            <p>Dit doel is behaald als de daarbij horende server wordt uitgeschakeld. Deze actie kan gestart worden zodra Valori de daarvoor benodigde werkzaamheden heeft afgerond.</p>
+          </article>
+
+          <article class="task-card">
+            <div class="task-title-row">
+              <input type="checkbox" id="task14" />
+              <label for="task14">Uitfaseren Build servers</label>
+            </div>
+            <div class="task-meta">AWPO</div>
+            <p>Dit doel is behaald als de daarbij horende servers uitgeschakeld kunnen worden. Deze actie kan gestart worden zodra er geen deployments meer plaatsvinden naar AD joined servers. Check alle teams.</p>
+          </article>
+
+          <article class="task-card">
+            <div class="task-title-row">
+              <input type="checkbox" id="task15" />
+              <label for="task15">Uitfaseren legacy batchservers Rotterdam</label>
+            </div>
+            <div class="task-meta">Valori =&gt; AWPO</div>
+            <p>Dit doel is behaald als de daarbij horende servers uitgeschakeld zijn. Deze actie kan gestart worden zodra de aanlevering van berichten naar ZS DMS niet meer via MSMQ en Biztalk loopt.</p>
+          </article>
+
+          <article class="task-card">
+            <div class="task-title-row">
+              <input type="checkbox" id="task16" />
+              <label for="task16">Uitfaseren TFS test servers</label>
+            </div>
+            <div class="task-meta">Valori =&gt; AWPO</div>
+            <p>Dit doel is behaald als de bijhorende server wordt uitgeschakeld. Deze actie kan gestart worden zodra het Biztalk platform uit staat.</p>
+          </article>
+
+          <article class="task-card">
+            <div class="task-title-row">
+              <input type="checkbox" id="task17" />
+              <label for="task17">Uitfaseren Beheer rds servers</label>
+            </div>
+            <div class="task-meta">Alle teams =&gt; AWPO</div>
+            <p>Dit doel is behaald als de daarbij horende servers uitgefaseerd zijn. Deze actie kan gestart worden zodra er geen gebruik meer wordt gemaakt van deze servers.</p>
+          </article>
+        </div>
+      </div>
+    </section>
+
+    <section class="section">
+      <div class="section-header">
+        <h2>Opruimen core infra</h2>
+        <span class="tag">Subtitel 5</span>
+      </div>
+      <div class="section-body">
+        <div class="task-list">
+          <article class="task-card">
+            <div class="task-title-row">
+              <input type="checkbox" id="task18" />
+              <label for="task18">Uitfaseren dfs infrastructuur</label>
+            </div>
+            <div class="task-meta">AWPO</div>
+            <p>Dit doel is behaald als de daarbij horende servers uitgefaseerd zijn. Randvoorwaardelijk is dat de RMW infrastructuur voor de G3 compleet is afgebouwd.</p>
+          </article>
+
+          <article class="task-card">
+            <div class="task-title-row">
+              <input type="checkbox" id="task19" />
+              <label for="task19">Uitfaseren MIM platform</label>
+            </div>
+            <div class="task-meta">AWPO</div>
+            <p>Dit doel is behaald als de daarbij horende servers uitgefaseerd zijn. Deze actie kan gestart worden zodra er door de teams geen beheer profielen meer nodig zijn om non-prod of prod workloads te beheren op het AVS platform.</p>
+          </article>
+
+          <article class="task-card">
+            <div class="task-title-row">
+              <input type="checkbox" id="task20" />
+              <label for="task20">Uitfaseren SQL Monitor omgeving</label>
+            </div>
+            <div class="task-meta">AWPO</div>
+            <p>Dit doel is behaald als de daarbij horende servers uitgefaseerd zijn. Deze actie kan gestart worden zodra er geen non-prod en prod workloads meer actief zijn op het AVS platform die afhankelijk zijn van SQL servers of clusters, zoals Biztalk, Exact, TFS, MIM, PMP en Entra Connect.</p>
+          </article>
+
+          <article class="task-card">
+            <div class="task-title-row">
+              <input type="checkbox" id="task21" />
+              <label for="task21">Uitfaseren AVS Thread Protection</label>
+            </div>
+            <div class="task-meta">AWPO</div>
+            <p>Dit doel is behaald als alle infrastructuur ondersteunend aan AVS Thread Protection is uitgeschakeld. Deze actie kan gestart worden zodra er geen non-prod en prod workloads meer over het AVS platform lopen.</p>
+          </article>
+
+          <article class="task-card">
+            <div class="task-title-row">
+              <input type="checkbox" id="task22" />
+              <label for="task22">Uitfaseren Back-up Infrastructuur</label>
+            </div>
+            <div class="task-meta">AWPO</div>
+            <p>Dit doel is behaald als alle backup infra servers uitgeschakeld zijn. Deze actie kan gestart worden zodra er geen non-prod en prod workloads meer over het AVS platform lopen.</p>
+          </article>
+
+          <article class="task-card">
+            <div class="task-title-row">
+              <input type="checkbox" id="task23" />
+              <label for="task23">Opruimen Active Directory</label>
+            </div>
+            <div class="task-meta">AWPO</div>
+            <p>Dit doel is behaald als de daarbij horende servers uitgeschakeld zijn. Deze actie kan gestart worden zodra er geen non-prod en prod workloads meer over het AVS platform lopen.</p>
+          </article>
+
+          <article class="task-card">
+            <div class="task-title-row">
+              <input type="checkbox" id="task24" />
+              <label for="task24">Opruimen infoblox infrastructuur</label>
+            </div>
+            <div class="task-meta">AWPO</div>
+            <p>Dit doel is behaald als de daarbij horende servers uitgeschakeld zijn. Deze actie kan gestart worden zodra alle Windows infrastructuur is verwijderd van AVS en de RMW infrastructuur voor de G3 compleet is afgebouwd.</p>
+          </article>
+
+          <article class="task-card">
+            <div class="task-title-row">
+              <input type="checkbox" id="task25" />
+              <label for="task25">Opruimen Netscaler infrastructuur</label>
+            </div>
+            <div class="task-meta">AWPO</div>
+            <p>Dit doel is behaald als de daarbij horende servers uitgeschakeld zijn. Deze actie kan gestart worden zodra alle Windows infrastructuur is verwijderd van AVS en de RMW infrastructuur voor de G3 compleet is afgebouwd.</p>
+          </article>
+
+          <article class="task-card">
+            <div class="task-title-row">
+              <input type="checkbox" id="task26" />
+              <label for="task26">Decomission AVS infrastructuur</label>
+            </div>
+            <div class="task-meta">AWPO</div>
+            <p>Dit doel is behaald als de daarbij horende servers uitgeschakeld zijn. Deze actie kan gestart worden zodra alle infrastructuur is verwijderd van AVS.</p>
+          </article>
+        </div>
+      </div>
+    </section>
+
+    <p class="footer-note" 
+  </main>
+</body>
+</html>
