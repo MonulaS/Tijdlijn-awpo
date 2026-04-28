@@ -484,9 +484,41 @@
     document.getElementById('progressFill').style.width = `${percentage}%`;
   }
 
+  function saveState() {
+    const checkboxes = document.querySelectorAll('input[type="checkbox"]');
+    const state = {};
+
+    checkboxes.forEach(cb => {
+      state[cb.id] = cb.checked;
+    });
+
+    localStorage.setItem('q2-progress', JSON.stringify(state));
+  }
+
+  function loadState() {
+    const saved = localStorage.getItem('q2-progress');
+    if (!saved) return;
+
+    const state = JSON.parse(saved);
+    const checkboxes = document.querySelectorAll('input[type="checkbox"]');
+
+    checkboxes.forEach(cb => {
+      if (state[cb.id]) {
+        cb.checked = true;
+      }
+    });
+  }
+
   document.addEventListener('DOMContentLoaded', () => {
-    document.querySelectorAll('input[type="checkbox"]').forEach(checkbox => {
-      checkbox.addEventListener('change', updateProgress);
+    loadState();
+
+    const checkboxes = document.querySelectorAll('input[type="checkbox"]');
+
+    checkboxes.forEach(checkbox => {
+      checkbox.addEventListener('change', () => {
+        saveState();
+        updateProgress();
+      });
     });
 
     updateProgress();
